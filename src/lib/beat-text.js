@@ -23,7 +23,6 @@ export let verbs = [
     "calls",
     "charges",
     "chases",
-    "chokes",
     "chooses",
     "freezes",
     "frightens",
@@ -112,4 +111,28 @@ export let transitions = [
     "now",
     "then",
     "while"
+]
+
+export function getStartingPrompt() {
+    let i = Math.floor(Math.random() * startingPrompt.length);
+    console.log(startingPrompt[i]);
+    return startingPrompt[i];
+}
+
+let startingPrompt = [
+    "person",
+    "character",
+    "yellow",
+    "blue",
+    "hero",
+    "boy",
+    "man",
+    "girl",
+    "protagonist",
+    "red",
+    "green",
+    "white",
+    "black",
+    "brown",
+    "purple"
 ]

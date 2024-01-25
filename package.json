@@ -14,7 +14,8 @@
 	},
 	"dependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
-		"@sveltejs/kit": "^2.0.0"
+		"@sveltejs/kit": "^2.0.0",
+		"openai": "^4.0.0"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",

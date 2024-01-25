@@ -2,16 +2,33 @@
     {#key titleText}
         <h1 in:fade>{titleText}</h1>
     {/key}
-    <button on:click={btnclick}>add a story beat</button>
+    <img class="vinyl" src={Vinyl} alt="vinyl record" />
+    <div style="display: flex">
+        <ul class="wave-menu" on:click={btnclick}>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <button on:click={rfshclick}><img class="restart" src={Restart} alt="restart button"/></button>
+    </div>
     <div bind:this={beats}>
     </div>
 </body>
 
 <script>
     import { titles, bookNames, bookSearch } from '$lib/title-text';
-    import { verbs, transitions } from '$lib/beat-text';
+    import { verbs, transitions, getStartingPrompt } from '$lib/beat-text';
 	import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
+    import Vinyl from "$lib/assets/vinyl.png";
+    import Restart from "$lib/assets/restart.png";
 
     onMount(async() => {
         fetch("https://openlibrary.org/search.json?q=the+blue")
@@ -31,13 +48,14 @@
     let titleIndex = 0;
     let ontoBooks = false;
     let titleText = titles[titleIndex];
+
     /**
      * @type {string}
      * Previous word is set by the latest story beat's noun to keep some relation between beats
      */
-    let previousNoun = "person";
+    let previousNoun = getStartingPrompt();
 
-    const btnclick = async () => {
+    const btnclick = () => {
         getWord(previousNoun);
         if (!ontoBooks) {
             titleText = titles[++titleIndex];
@@ -51,9 +69,13 @@
         }
     }
 
+    const rfshclick = () => {
+        window.location.reload();
+    }
+
     /**
-	 * @param {string} previousNoun
      * Generates a new sentence (probably a bad function name)
+	 * @param {string} previousNoun
 	 */
     function getWord(previousNoun) {
         const url = "https://api.datamuse.com/words?ml=" + previousNoun;
@@ -106,7 +128,224 @@
 <style>
     body {
         font-family: 'Atkinson Hyperlegible';
-        width: 750px;
+        width: 600px;
         margin: 0 auto;
+        background-color: #fff7ee;
     }
+
+    button {
+        border: 4px solid #000000;
+        border-radius: 50px;
+        width: 100px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin-top: 5px;
+        margin-left: 15px;
+        cursor: pointer;
+        transition: ease 0.2s;
+        position: relative;
+        background: #fff;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background-color: black;
+        color: white;
+    }
+
+    button:hover > img {
+        filter: brightness(0%) invert(1);
+    }
+
+    button:active > img {
+        animation: rotate 0.5s 1;
+    }
+
+    .restart {
+        width: 28px;
+        color: black;
+        filter: brightness(0%);
+    }
+
+    .vinyl {
+        width: 150px;
+        float: right;
+        animation: rotate 1s infinite;
+        animation-timing-function: linear;
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    .wave-menu {
+        border: 4px solid #000000;
+        border-radius: 50px;
+        width: 200px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        transition: ease 0.2s;
+        position: relative;
+        background: #fff;
+    }
+
+    .wave-menu li {
+        list-style: none;
+        height: 30px;
+        width: 4px;
+        border-radius: 10px;
+        background: #000000;
+        margin: 0 6px;
+        padding: 0;
+        animation-name: wave1;
+        animation-duration: 0.3s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        transition: ease 0.2s;
+    }
+
+    .wave-menu:hover > li {
+        background: #fff;
+    }
+
+    .wave-menu:hover {
+        background: #000000;
+    }
+
+    .wave-menu:active > li:nth-child(1) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu:active > li:nth-child(2) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu:active > li:nth-child(3) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu:active > li:nth-child(4) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu:active > li:nth-child(5) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu:active > li:nth-child(6) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu:active > li:nth-child(7) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu:active > li:nth-child(8) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu:active > li:nth-child(9) {
+        animation-name: wavemax;
+    }
+    
+    .wave-menu:active > li:nth-child(10) {
+        animation-name: wavemax;
+    }
+
+    .wave-menu li:nth-child(2) {
+        animation-name: wave2;
+        animation-delay: 0.2s;
+    }
+
+    .wave-menu li:nth-child(3) {
+        animation-name: wave3;
+        animation-delay: 0.23s;
+        animation-duration: 0.4s;
+    }
+
+    .wave-menu li:nth-child(4) {
+        animation-name: wave4;
+        animation-delay: 0.1s;
+        animation-duration: 0.3s;
+    }
+
+    .wave-menu li:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .wave-menu li:nth-child(6) {
+        animation-name: wave2;
+        animation-duration: 0.5s;
+    }
+
+    .wave-menu li:nth-child(8) {
+        animation-name: wave4;
+        animation-delay: 0.4s;
+        animation-duration: 0.25s;
+    }
+
+    .wave-menu li:nth-child(9) {
+        animation-name: wave3;
+        animation-delay: 0.15s;
+    }
+
+    @keyframes wave1 {
+        from {
+            transform: scaleY(1);
+        }
+
+        to {
+            transform: scaleY(0.5);
+        }
+    }
+
+    @keyframes wave2 {
+        from {
+            transform: scaleY(0.3);
+        }
+
+        to {
+            transform: scaleY(0.6);
+        }
+    }
+
+    @keyframes wave3 {
+        from {
+            transform: scaleY(0.6);
+        }
+
+        to {
+            transform: scaleY(0.8);
+        }
+    }
+
+    @keyframes wave4 {
+        from {
+            transform: scaleY(0.2);
+        }
+
+        to {
+            transform: scaleY(0.5);
+        }
+    }
+
+    @keyframes wavemax {
+        from {
+            transform: scaleY(1.0);
+        }
+
+        to {
+            transform: scaleY(1.0);
+        }
+    }
+
 </style>
