@@ -115,7 +115,7 @@
                         i = Math.floor(Math.random() * adj.length);
                         let adjective = adj[i].word;
 
-                        const objUrl = "https://api.datamuse.com/words?rel_jja=" + subject;
+                        const objUrl = "https://api.datamuse.com/words?rel_jja=" + adjective;
                         fetch(objUrl)
                             .then(response => response.json())
                             .then(obj => {
