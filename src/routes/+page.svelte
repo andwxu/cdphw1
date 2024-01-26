@@ -1,8 +1,12 @@
+<main>
 <body>
     {#key titleText}
         <h1 in:fade>{titleText}</h1>
     {/key}
-    <img class="vinyl" src={Vinyl} alt="vinyl record" />
+    <img class="vinyl" src={Vinyl} alt="vinyl record" bind:this={musicNote} />
+    {#if musicVisible}
+        <img class="music" src={Music} alt="music eighth note" />
+    {/if}
     <div style="display: flex">
         <ul class="wave-menu" on:click={btnclick}>
             <li></li>
@@ -21,6 +25,7 @@
     <div bind:this={beats}>
     </div>
 </body>
+</main>
 
 <script>
     import { titles, bookNames, bookSearch } from '$lib/title-text';
@@ -29,6 +34,7 @@
     import { fade } from 'svelte/transition';
     import Vinyl from "$lib/assets/vinyl.png";
     import Restart from "$lib/assets/restart.png";
+    import Music from "$lib/assets/music.png";
 
     onMount(async() => {
         fetch("https://openlibrary.org/search.json?q=the+blue")
@@ -48,6 +54,11 @@
     let titleIndex = 0;
     let ontoBooks = false;
     let titleText = titles[titleIndex];
+    let musicVisible = false;
+    /**
+	 * @type {HTMLImageElement}
+	 */
+    let musicNote;
 
     /**
      * @type {string}
@@ -55,8 +66,9 @@
      */
     let previousNoun = getStartingPrompt();
 
-    const btnclick = () => {
+    const btnclick = async () => {
         getWord(previousNoun);
+        if (!musicVisible) document.documentElement.style.setProperty('--note-end-height', Math.floor(Math.random() * 110) + 'vh')
         if (!ontoBooks) {
             titleText = titles[++titleIndex];
             if (titleIndex >= titles.length) {
@@ -66,6 +78,10 @@
         } else {
             titleText = $bookNames[titleIndex++];
             if (titleIndex > $bookNames.length) titleIndex = 0;
+        }
+        if (!musicVisible) {
+            musicVisible = true;
+            setTimeout(function() {musicVisible = false;}, 3000);
         }
     }
 
@@ -126,6 +142,10 @@
 </script>
 
 <style>
+    :root {
+        --note-end-height: 110vh; 
+    }
+
     body {
         font-family: 'Atkinson Hyperlegible';
         width: 600px;
@@ -175,6 +195,27 @@
         float: right;
         animation: rotate 1s infinite;
         animation-timing-function: linear;
+    }
+
+    .music {
+        animation: fly 3s linear infinite;
+        top: 0;
+	    left: 0;
+	    position: fixed;
+	    z-index: 999;
+	    pointer-events: none;
+        width: 100px;
+    }
+    @keyframes fly {
+        /* 0%  {
+            transform: translate(0,110vh);opacity: .50;
+        } */
+        0% {
+            transform: translate(60vw, 10vh); opacity: 0;
+        }
+        100%{
+            transform: translate(110vw, var(--note-end-height));opacity: .50;
+        }
     }
 
     @keyframes rotate {

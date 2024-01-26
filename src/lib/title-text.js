@@ -10,7 +10,7 @@ export const bookNames = derived(bookSearch, ($bookSearch) => {
 });
 
 export let titles = [
-    "so you want to be an author?",
+    "story beat generator",
     "that's a good start",
     "what a twist, keep going!",
     "i like it quite a bit so far",
